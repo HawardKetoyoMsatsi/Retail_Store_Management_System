@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retail Store Manager</title>
+<link rel="stylesheet" href="/static/style.css"></head><body>
+<header>🏪 Retail Store Manager <small id="todayLbl"></small></header>
+<nav id="nav">
+<button data-tab="dash" class="active">Dashboard</button>
+<button data-tab="items">Items</button>
+<button data-tab="buy">Goods Bought</button>
+<button data-tab="daily">Daily Money</button>
+<button data-tab="stock">Sunday Stock Take</button>
+</nav>
+<main>
+
+<section id="dash">
+ <div id="stockBanner" class="banner hide"></div>
+ <div class="card"><h2>Balance check <span class="muted" id="recDate"></span></h2><div id="dashRec">Loading…</div></div>
+ <div class="grid" id="kpis" style="margin-bottom:16px"></div>
+ <div class="two">
+  <div class="card"><h2>Money available (last 14 days)</h2><div id="chMoney"></div></div>
+  <div class="card"><h2>Goods bought: cost vs selling value</h2><div id="chBuy"></div></div>
+ </div>
+ <div class="card"><h2>Stock on shelf (last stock take)</h2><div id="dashStock"></div></div>
+ <div class="two">
+  <div class="card"><h2>Recent daily records</h2><div id="dashDaily"></div></div>
+  <div class="card"><h2>Recent purchases</h2><div id="dashBuy"></div></div>
+ </div>
+ <div class="card"><h2>Opening capital</h2>
+  <p class="muted">Money the business started with. Record any goods you already had as a purchase. Used in the balance check.</p>
+  <div class="grid" style="max-width:260px"><div><label>Opening capital (KES)</label><input type="number" id="capital" step="any"></div></div>
+  <button class="primary" onclick="saveCapital()">Save capital</button> <span id="capMsg" class="msg"></span>
+ </div>
+</section>
+
+<section id="items" class="hide">
+ <div class="card"><h2>Add an item you sell</h2>
+  <p class="muted">Keep every item you sell here. You pick from this list when recording goods bought and when counting stock. The prices are only a starting point and can be changed on each purchase.</p>
+  <div class="grid">
+   <div><label>Item name</label><input id="niName" maxlength="80" placeholder="e.g. Sugar 1kg"></div>
+   <div><label>Usual buying price</label><input type="number" step="any" min="0" id="niBuy"></div>
+   <div><label>Usual selling price</label><input type="number" step="any" min="0" id="niSell"></div>
+  </div>
+  <button class="primary" onclick="addItem()">Add item</button> <span id="itemMsg" class="msg"></span>
+ </div>
+ <div class="card"><h2>Your items <span class="muted" id="itemCount"></span></h2><div id="itemList2"></div></div>
+</section>
+
+<section id="buy" class="hide">
+ <div class="card"><h2>Record goods bought</h2>
+  <div class="grid" style="max-width:220px"><div><label>Date</label><input type="date" id="buyDate"></div></div><br>
+  <div id="buyEmpty" class="banner warn hide">Your item list is empty. Add the items you sell on the <a href="#" onclick="openTab('items');return false">Items tab</a> first.</div>
+  <div class="prow muted"><span>Item</span><span>Buying price</span><span>Selling price</span><span>Quantity</span><span></span></div>
+  <div id="buyRows"></div>
+  <button class="link" onclick="addRow()">+ Add another item</button><br>
+  <button class="primary" onclick="savePurchases()">Save purchases</button>
+  <div id="buyMsg" class="msg"></div>
+ </div>
+ <div class="card"><h2>Latest purchases</h2><div id="buyList"></div></div>
+</section>
+
+<section id="daily" class="hide">
+ <div class="card"><h2>Daily money record</h2>
+  <div class="grid" style="max-width:220px"><div><label>Date</label><input type="date" id="dayDate"></div></div><br>
+  <div class="grid">
+   <div><label>Cash available</label><input type="number" step="any" id="dCash"></div>
+   <div><label>Pochi la Biashara</label><input type="number" step="any" id="dPochi"></div>
+   <div><label>M-Pesa</label><input type="number" step="any" id="dMpesa"></div>
+   <div><label>Money used to buy goods</label><input type="number" step="any" id="dSpent"></div>
+   <div><label>Money drawn from business</label><input type="number" step="any" id="dDrawn"></div>
+  </div>
+  <p class="muted" id="dayTotal"></p>
+  <button class="primary" onclick="saveDaily()">Save day</button>
+  <div id="dayMsg" class="msg"></div>
+ </div>
+ <div class="card"><h2>Last 14 days</h2><div id="dayList"></div></div>
+</section>
+
+<section id="stock" class="hide">
+ <div class="card"><h2>Stock take</h2>
+  <div id="stockInfo" class="banner warn hide"></div>
+  <div class="grid" style="max-width:260px"><div><label id="stLabel">Stock take date</label><input type="date" id="stDate"></div></div>
+  <p class="muted">Count what is physically on the shelves. Stock is valued at each item's latest selling price.</p>
+  <div id="stockRows"></div>
+  <button class="primary" onclick="saveStock()">Save stock take &amp; check balance</button>
+  <div id="stockMsg" class="msg"></div>
+ </div>
+ <div class="card hide" id="recCard"><h2>Result</h2><div id="stockRec"></div></div>
+</section>
+</main>
+
+<script src="/static/app.js"></script></body></html>
